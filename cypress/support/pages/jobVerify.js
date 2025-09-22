@@ -77,6 +77,3 @@ export function jobVerify(testEmail) {
   });
 
 }
-export function validateCandidateInJED(testEmail) {
-
-}
