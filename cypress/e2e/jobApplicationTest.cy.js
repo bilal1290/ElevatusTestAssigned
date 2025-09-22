@@ -1,8 +1,11 @@
+// Import Page Object Models (POMs) for modular and reusable test actions
 import { registrationPage } from "../support/pages/registrationPage";
 import { emailPage } from "../support/pages/emailPage";
 import { profilePage } from "../support/pages/profilePage";
 import { confirmationPage } from "../support/pages/confirmationPage";
 import { jobVerify } from "../support/pages/jobVerify";
+
+// 🔑 Utility function to generate a unique candidate email/UID
 function generateUID() {
   const letters = 'abcdefghijklmnopqrstuvwxyz';
   const randomLetter = letters.charAt(Math.floor(Math.random() * letters.length));
@@ -10,20 +13,26 @@ function generateUID() {
   return randomLetter + randomNumber;
 }
 
+// Fetch environment variables (set in cypress.config.js or CI/CD)
 const serverId = Cypress.env('MAILOSAUR_SERVER_ID');
 const apiKey = Cypress.env('MAILOSAUR_API_KEY');
 
 describe('Candidate Registration & Apply', () => {
+
   before(() => {
-    // runs once before all tests in the block
-    // cy.log(`Using test email: bilal-${generateUID()}@${serverId}.mailosaur.net`);
+    // Runs once before all tests
+    // Create a dynamic test email and store in localStorage
     localStorage.setItem('testEmail', `bilal-${generateUID()}@${serverId}.mailosaur.net`);
   });
+
   it('Registers, verifies email, builds profile & applies', () => {
     const password = 'Password@123';
     let testEmail = localStorage.getItem('testEmail');
+
+    // 🌐 Visit the app's root page
     cy.visit('/');
 
+    // ✅ Step 1: Register Candidate
     registrationPage.acceptCookies();
     registrationPage.openRegisterForm();
     registrationPage.fillForm({
@@ -36,35 +45,39 @@ describe('Candidate Registration & Apply', () => {
     registrationPage.submit();
     registrationPage.validateSuccess();
 
-    // 📩 fetch confirmation email
-    emailPage.verifyConfirmationLink({ apiKey, serverId, testEmail })
-    cy.get('div.card-body div input').should('be.visible').type('new candidate')
-    cy.get('li:contains("new candidate")').should('be.visible').click()
-    cy.get('div.card-body button:contains("Continue")')
-      .should('be.visible').click()
+    // 📩 Step 2: Fetch Confirmation Email via Mailosaur
+    emailPage.verifyConfirmationLink({ apiKey, serverId, testEmail });
 
-    // Upload CV (Upload failling due to 500 error on Elevatus side)
+    // Select candidate type → "new candidate"
+    cy.get('div.card-body div input').should('be.visible').type('new candidate');
+    cy.get('li:contains("new candidate")').should('be.visible').click();
+    cy.get('div.card-body button:contains("Continue")')
+      .should('be.visible').click();
+
+    // 📂 Step 3: Upload Resume (Note: fails due to Elevatus 500 error)
     profilePage.uploadCV('testResume.doc');
 
-    cy.visit('/jobs/material-coordinator-1758443998')
+    // 🌐 Step 4: Open Material Coordinator Job page
+    cy.visit('/jobs/material-coordinator-1758443998');
 
+    // Click on "Apply" button
+    cy.get('button[type="button"] span:contains("Apply")')
+      .scrollIntoView()
+      .should('be.visible')
+      .click();
 
-    cy.get('button[type="button"] span:contains("Apply")').scrollIntoView().should('be.visible').click()
-
-    // Fill profile
+    // 📝 Step 5: Fill Profile Details
     profilePage.fillDetails();
     profilePage.submitProfile();
 
-    // Validate confirmation modal
+    // ✅ Step 6: Validate Confirmation Modal
     confirmationPage.validateAndConfirm();
 
-    // Verify applied status
+    // 🔎 Step 7: Verify "Applied" Status
     cy.get('button[type="button"] span:contains("Applied")')
       .should('be.visible');
       
-    // Verify job applicant list to confirm application in JED Portal
+    // 🔍 Step 8: Verify candidate exists in Jed Portal job list
     jobVerify(testEmail);
-
-
-  })
+  });
 });
