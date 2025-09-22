@@ -7,7 +7,7 @@ class ProfilePage {
   fillDetails() {
     cy.get('#description').type('I am a QA Engineer...');
     cy.get('#SharedPhoneControlRef--0---0-0-phone_number').clear().type('+92 3001234567');
-    cy.get('label:contains("Date of birth")').click({force: true}); // open date picker
+    cy.get('label:contains("Date of birth")').click({ force: true }); // open date picker
     cy.get('input#date-picker-dialog--0---0-0-undefined').type('1995-07-14');
     cy.get('#gender').click().type('Male{enter}');
     cy.get('#nationality').click().type('Pakistani{enter}');
