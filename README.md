@@ -42,6 +42,9 @@ This repository contains Cypress automated test scripts for the following client
 
 ## 📦 Installation
 
+## Video Link working code and running test
+- Video Link: https://www.loom.com/share/b1c4f3621ba1454986ea3397723a8d2a
+
 Clone the repository and install dependencies:
 
 ```bash
@@ -58,7 +61,5 @@ npx cypress open
 npx cypress run --spec "cypress/e2e/jobApplicationTest.cy.js"
 
 
-## Video Link working code and running test
-- Video Link: https://www.loom.com/share/b1c4f3621ba1454986ea3397723a8d2a
 
 
