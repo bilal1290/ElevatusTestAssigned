@@ -15,19 +15,20 @@ This repository contains Cypress automated test scripts for the following client
 ## 📂 Repository Structure
 
 ── cypress
-│ ├── e2e
-│ │ └── newCandidate.cy.js # Main test spec
-│ ├── fixtures # Test data (optional)
-│ ├── support
-│ │ ├── commands.js # Custom Cypress commands
-│ │ └── pages # Page Object Models (POM)
-│ │ ├── registrationPage.js
-│ │ ├── loginPage.js
-│ │ ├── jobPage.js
-│ │ └── portalPage.js
+│   ├── e2e
+│   │   └── newCandidate.cy.js      # Main test spec
+│   ├── fixtures                    # Test data (optional)
+│   └── support
+│       ├── commands.js             # Custom Cypress commands
+│       └── pages                   # Page Object Models (POM)
+│           ├── registrationPage.js
+│           ├── loginPage.js
+│           ├── jobPage.js
+│           └── portalPage.js
 ├── package.json
 ├── cypress.config.js
 └── README.md
+
 
 
 ---
