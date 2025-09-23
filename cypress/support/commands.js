@@ -45,3 +45,9 @@ Cypress.Commands.add("scrollUntilVisible", (selector, maxScrolls = 10) => {
 
   scroll();
 });
+Cypress.Commands.add('runRoutes', (candidateName = 'new candidate') => {
+  // Intercept API call triggered when selecting candidate
+  cy.intercept('POST', 'https://dammam-core-api.elevatus.io/api/candidate/v1/register').as('createCandidate');
+
+  
+});

@@ -3,7 +3,12 @@ class ProfilePage {
     cy.get('button.btn-profile-build-options:contains("Upload your CV")').click();
     cy.get('input[accept=".pdf, .doc, .docx"]').attachFile(fileName);
   }
-
+  updateProfileType(name = 'new candidate') {
+    cy.get('div.card-body div input').should('be.visible').type('new candidate');
+    cy.get('li:contains("new candidate")').should('be.visible').click();
+    cy.get('div.card-body button:contains("Continue")')
+      .should('be.visible').click();
+  }
   fillDetails() {
     cy.get('#description').type('I am a QA Engineer...');
     cy.get('#SharedPhoneControlRef--0---0-0-phone_number').clear().type('+92 3001234567');

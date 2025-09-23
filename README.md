@@ -40,11 +40,13 @@ This repository contains Cypress automated test scripts for the following client
 - [Cypress](https://www.cypress.io/)  
 
 ---
-
-## 📦 Installation
+## CaseStudy Link:
+https://docs.google.com/document/d/18hjIfD1mZ2AzZ2zL300jeAG2vfL1oEIs40vPfESjdKw/edit?usp=sharing
 
 ## Video Link working code and running test
 - Video Link: https://www.loom.com/share/b1c4f3621ba1454986ea3397723a8d2a
+
+## 📦 Installation
 
 Clone the repository and install dependencies:
 
@@ -60,7 +62,4 @@ npm install
 npx cypress open
 
 npx cypress run --spec "cypress/e2e/jobApplicationTest.cy.js"
-
-
-
 

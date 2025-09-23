@@ -23,6 +23,7 @@ describe('Candidate Registration & Apply', () => {
     // Runs once before all tests
     // Create a dynamic test email and store in localStorage
     localStorage.setItem('testEmail', `bilal-${generateUID()}@${serverId}.mailosaur.net`);
+    cy.runRoutes(); // Setup network intercepts
   });
 
   it('Registers, verifies email, builds profile & applies', () => {
@@ -49,10 +50,7 @@ describe('Candidate Registration & Apply', () => {
     emailPage.verifyConfirmationLink({ apiKey, serverId, testEmail });
 
     // Select candidate type → "new candidate"
-    cy.get('div.card-body div input').should('be.visible').type('new candidate');
-    cy.get('li:contains("new candidate")').should('be.visible').click();
-    cy.get('div.card-body button:contains("Continue")')
-      .should('be.visible').click();
+    profilePage.updateProfileType('new candidate');
 
     // 📂 Step 3: Upload Resume (Note: fails due to Elevatus 500 error)
     profilePage.uploadCV('testResume.doc');

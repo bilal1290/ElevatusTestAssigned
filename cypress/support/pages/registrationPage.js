@@ -24,6 +24,8 @@ class RegistrationPage {
   }
 
   validateSuccess() {
+    // Wait for network call to complete
+    cy.wait('@createCandidate').its('response.statusCode').should('eq', 200);
     cy.get('div.card-body .text-center')
       .should('contain.text', 'Registered successfully');
   }
